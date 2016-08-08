@@ -1,0 +1,120 @@
+<html>
+<head>
+  <meta charset='UTF-8'>
+  <title>Project Grow</title>
+  <style>
+    h1 {
+      font-family: 'Arial';
+    }
+
+    canvas {
+      border: 2px solid #999;
+    }
+	p{
+		display: inline-block;
+	}
+  </style>
+</head>
+<body>
+  <h1>Project Grow</h1>
+  <canvas id='js-canvas' width="400" height="400" onclick="clicking()"></canvas>
+  <script>
+    var canvas = document.getElementById('js-canvas')
+    var ctx = canvas.getContext('2d')
+	var phase = 1
+	var trees = 0
+	
+	//Function for Clicking	
+	function clicking(){
+		//Switch for changing Phases
+		switch(phase){
+			case 0: phase0()
+			break;
+			case 1: phase1()
+			break;
+			case 2: phase2()
+			break;
+			case 3: phase3()
+			break;
+			case 4: phase4()
+			break;
+			default: console.log("ERROR")
+		}
+	}
+	function phase0(){
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		phase++
+		trees++
+		amount.innerHTML = trees;
+	}
+	
+	function phase1(){
+		phase++
+		ctx.fillStyle = '#228b22'
+		// x -> 10,
+		// y -> 10,
+		// width -> 50,
+		// height -> 50
+		ctx.fillRect (190, 370, 20, 20)		//1
+		console.log("Phase is 1")
+	}
+	
+	function phase2(){
+		phase++
+		ctx.fillRect (190, 120, 20, 250)	//2
+		ctx.fillRect (160, 90, 35, 50)		//3
+		ctx.fillRect (200, 130, 60, 35)		//4
+		ctx.fillRect (125, 190, 20, 45)		//5
+		ctx.fillRect (140, 220, 70, 25)		//6
+		ctx.fillRect (240, 240, 25, 45)		//7
+		ctx.fillRect (190, 270, 70, 25)		//8
+		console.log("Phase is 2")
+	}
+	
+	function phase3(){
+		phase++
+		ctx.fillRect (140, 50, 35, 70)		//9
+		ctx.fillRect (240, 100, 30, 50)		//10
+		ctx.fillRect (260, 90, 50, 25)		//11
+		ctx.fillRect (210, 180, 50, 25)		//12
+		ctx.fillRect (95, 170, 35, 50)		//13
+		ctx.fillRect (60, 160, 50, 30)		//14
+		ctx.fillRect (140, 290, 70, 25)		//15
+		ctx.fillRect (250, 230, 50, 25)		//16
+		ctx.fillRect (290, 205, 20, 40)		//17
+		console.log("Phase is 3")
+	}
+
+	function phase4(){
+		phase = 0
+		
+		ctx.fillRect (110, 270, 50, 30)		//18
+		
+		ctx.fillStyle = '#22A7F0'
+		ctx.fillRect (120, 15, 45, 45)		//19
+		ctx.fillRect (290, 65, 35, 35)		//21
+		ctx.fillRect (50, 130, 35, 35)		//23
+		ctx.fillRect (280, 190, 35, 35)		//25
+		ctx.fillRect (80, 250, 35, 35)		//27
+		
+		ctx.fillStyle = '#fff400'
+		ctx.fillRect (130, 25, 25, 25)		//20
+		ctx.fillRect (300, 75, 15, 15)		//22
+		ctx.fillRect (60, 140, 15, 15)		//24
+		ctx.fillRect (290, 200, 15, 15)		//26
+		ctx.fillRect (90, 260, 15, 15)		//28
+		
+		console.log("Phase is 4")
+	}
+	
+	canvas.addEventListener('click', function () {
+		console.log('clicked!')
+		//console.log()
+	})
+
+  </script>
+  <br>
+  <p>Anzahl Bäume </p>
+  <p id="amount" class="active">0</p>
+</body>
+</html>
