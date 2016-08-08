@@ -1,0 +1,125 @@
+<html>
+<head>
+  <meta charset='UTF-8'>
+  <title>Project Grow</title>
+  <style>
+    h1 {
+      font-family: 'Arial';
+    }
+
+    canvas {
+      border: 1px solid #999;
+    }
+  </style>
+</head>
+<body>
+  <h1>Project Grow</h1>
+  <h2 id='js-count'>0</h2>
+  <canvas id='js-canvas' width="400" height="400"></canvas>
+  <script>
+    var el = document.getElementById('js-canvas')
+    var countEl = document.getElementById('js-count')
+    var ctx = el.getContext('2d')
+
+    var initialState = {
+      startPhase: 1,
+
+      pixels: {
+        width: 20,
+        height: 20
+      },
+
+      phases: {
+        1: [
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 1, 0, 0],
+        ],
+
+        2: [
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 1, 1],
+          [0, 1, 0, 1, 0],
+          [0, 0, 1, 0, 0],
+          [0, 0, 1, 0, 0],
+        ],
+
+        3: [
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [1, 0, 0, 0, 1],
+          [1, 1, 0, 0, 1],
+          [0, 0, 1, 1, 1],
+          [0, 1, 0, 1, 0],
+          [0, 0, 1, 0, 0],
+          [0, 0, 1, 0, 0],
+        ]
+      }
+    }
+
+    initialState.canvas = {
+      width: initialState.phases[1][0].length * initialState.pixels.width,
+      height: initialState.phases[1].length * initialState.pixels.height
+    }
+
+    initialState.maxPhases = Object.keys(initialState.phases).length
+
+    el.width = initialState.canvas.width
+    el.height = initialState.canvas.height
+
+    var currentPhase = initialState.startPhase
+    var count = 0
+
+    init(initialState)
+
+    function init (state) {
+      update(ctx, state, currentPhase)
+
+      el.addEventListener('click', function () {
+        currentPhase += 1
+        if (currentPhase - 1 === state.maxPhases) {
+          currentPhase = 1
+          count += 1
+          countEl.innerHTML = count
+        }
+        update(ctx, state, currentPhase)
+      })
+    }
+
+    function createPhase (phase, state) {
+      phase.forEach(function (row, i) {
+        row.forEach(function (col, j) {
+          if (col !== 1) return
+          const x = state.pixels.width * j
+          const y = state.pixels.height * i
+
+          ctx.fillStyle = '#228b22'
+          ctx.fillRect(x, y, state.pixels.width, state.pixels.height)
+        })
+      })
+    }
+
+    function update (ctx, state, current) {
+      ctx.clearRect(0, 0, state.canvas.width, state.canvas.height)
+      createPhase(state.phases[current], state)
+    }
+  </script>
+</body>
+</html>
