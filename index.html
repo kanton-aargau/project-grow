@@ -4,49 +4,7 @@
 		<meta charset='UTF-8'>
 		<title>Project Grow</title>
 		<link rel="icon" href="00_Pictures\icon.gif">
-		<style>
-			html, body{
-				height: 100%;
-			}
-			body {
-				margin-top: 5%;
-				text-align: center;
-				background-color: #e1e1e1;
-			}
-			h1 {
-			  font-family: 'Arial';
-			  color: #248DC4;
-			}
-			canvas {
-			  border: 10px solid black;
-			  background-color: #91C6E1;
-			}
-			.anzahl{
-				display: inline-block;
-				font-size: 25px;
-				color: #1c709c;
-			}
-			.noline p{
-				display: inline-block;
-			}
-			.container{
-				min-height: 100%;
-				margin-bottom: -30px;
-			}
-			.container:after{
-				content: "";
-				display: block;
-			}
-			.footer, .container:after{
-				height: 30px;
-			}
-			.footer{
-				background:black;
-			}
-			.footer a{
-				color: white;
-			}
-		</style>
+		<link rel="stylesheet" href="main.css">
 	</head>
 	<body>
 		<div class="container">
@@ -55,7 +13,6 @@
 			<script>
 				var canvas = document.getElementById('js-canvas')
 				var ctx = canvas.getContext('2d')
-				var leafs = 0
 				var phase = 1
 				var trees = 0
 				var basecost = 10
@@ -63,6 +20,7 @@
 				var bonus = 0
 				var cost = 6
 				var clicks = 0
+				
 				
 				//Function for making leafs
 				function makeleaf(leafs, max1, min1, max2, min2, color){
@@ -74,6 +32,7 @@
 						ctx.fillRect ((250+randx), randy, size, size);
 					}
 				}
+				
 				function clicking(){
 					//Switch for changing Phases
 					switch(phase){
@@ -88,9 +47,11 @@
 						case 4: phase4()
 						break;
 						default: console.log("ERROR")
+						console.log("Phase is:"+phase)
 					}
 				}
 				
+				//Functions for the 5 phases
 				function phase0(){
 					ctx.clearRect(0, 0, canvas.width, canvas.height);
 					phase++;
@@ -100,18 +61,15 @@
 						upgrade();
 					}
 				}
-				
 				function phase1(){
 					phase++		
 					ctx.fillStyle = '#813131'
 					ctx.fillRect (440, 370, 20, 20)
 				}
-				
 				function phase2(){
 					phase++
 					ctx.fillRect (430, 120, 40, 270)
 				}
-				
 				function phase3(){
 					phase++
 					makeleaf(60, 270, 110, 180, 70, '#228b22')
@@ -149,6 +107,36 @@
 					}
 				}
 				
+				function savedata(){
+					sessionStorage.setItem('phase', phase);
+					sessionStorage.setItem('trees', trees);
+					sessionStorage.setItem('basecost', basecost);
+					sessionStorage.setItem('uppart', uppart);
+					sessionStorage.setItem('bonus', bonus);
+					sessionStorage.setItem('cost', cost);
+					sessionStorage.setItem('clicks', clicks);
+					
+					console.log('saved')
+				}
+				
+				function loaddata(){
+					phase = 0
+					trees = parseInt(sessionStorage.getItem('trees'));
+					basecost = parseInt(sessionStorage.getItem('basecost'));
+					uppart = parseInt(sessionStorage.getItem('uppart'));
+					bonus = parseInt(sessionStorage.getItem('bonus'));
+					cost = Math.floor((uppart * 0.75)*(bonus + 0.8)*basecost);
+					clicks = parseInt(sessionStorage.getItem('clicks'));
+					
+					upgradepart.innerHTML = uppart
+					upcost.innerHTML = cost+"&nbspTrees"
+					bonustrees.innerHTML = bonus
+					clickamount.innerHTML = clicks
+					amount.innerHTML = trees
+
+					console.log('loaded')
+				}
+				
 				canvas.addEventListener('click', function () {
 					clicks++;
 					clickamount.innerHTML = clicks
@@ -170,15 +158,17 @@
 			<br>
 			<div id="text">
 				<p class="anzahl">Number of trees: </p>
-				<p id="amount" class="active, anzahl">0</p>
+				<p id="amount" class="active anzahl">0</p>
 				<br>
 				<div class="noline">
 					<p>Additional tree per Cycle:&nbsp <p id="bonustrees" class="active">0</p></p><br>
-					<p><button onclick="upgrade()" ><p id="upbutton" class="active">Upgrade</p>
+					<p><button onclick="upgrade()" class="myButton2"><p id="upbutton" class="active">Upgrade</p>
 					</button> Part&nbsp <p id="upgradepart" class="active">1</p> out of 4</p><br>
 					<p>Upgrade cost:&nbsp <p id="upcost" class="active">6 Trees</p></p><br>
 					<p>Automatic Upgrading: <input type="checkbox" id="autobox">
 				</div>
+				<button onclick="savedata()" class="myButton">Save Data</button>
+				<button onclick="loaddata()" class="myButton">Load Data</button>
 				<h3>Amount of Clicks <p id="clickamount">0</p></h3>
 			</div>
 		</div>
