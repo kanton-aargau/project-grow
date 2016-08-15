@@ -8,10 +8,6 @@
 		height: 100%;
 		box-sizing: border-box;
 	}
-	*:before,
-	*:after {
-	  box-sizing: inherit;
-	}
 	body {
 		margin-top: 5%;
 		text-align: center;
@@ -96,50 +92,30 @@
 		phase++;
 		trees += bonus + 1;
 		amount.innerHTML = trees
-		//console.log("Amount of trees: "+trees)
 		if(document.getElementById('autobox').checked){
 			upgrade();
 		}
 	}
 	
 	function phase1(){
-		phase++
-		
-		// x -> 10,
-		// y -> 10,
-		// width -> 50,
-		// height -> 50
-		
+		phase++		
 		ctx.fillStyle = '#813131'
-		ctx.fillRect ((250+190), 370, 20, 20)
-		//console.log("Phase is 1")
+		ctx.fillRect (440, 370, 20, 20)
 	}
 	
 	function phase2(){
 		phase++
-		ctx.fillRect ((250+180), 120, 40, 270)
-		//console.log("Phase is 2")
+		ctx.fillRect (430, 120, 40, 270)
 	}
 	
 	function phase3(){
 		phase++
-		
-		// amount
-		// Max X
-		// Min X
-		// Max Y
-		// Min Y
-		// color
-		// Size of Cube
-		
 		makeleaf(60, 270, 110, 180, 70, '#228b22')
-		//console.log("Phase is 3")
 	}
 	function phase4(){
 		phase = 0
 		makeleaf(150, 320, 50, 250, 40, '#228b22')
 		makeleaf(20, 300, 80, 220, 90, '#DD1600')
-		//console.log("Phase is 4")
 	}
 	
 	//Function for Upgrading
@@ -148,13 +124,11 @@
 		if(trees >= cost && uppart < 4){
 			uppart++;
 			trees -= cost;
-			//console.log("Upgraded")
 		}
 		
 		if(uppart == 5){
 			uppart = 1;
 			bonus++;
-			//console.log("Added 1 Bonus Tree per Click")
 		}
 		
 		cost = Math.floor((uppart * 0.75)*(bonus + 0.8)*basecost);
@@ -163,8 +137,6 @@
 		upcost.innerHTML = cost+"&nbspTrees"
 		bonustrees.innerHTML = bonus
 		
-		//console.log("Upgrading Part: "+uppart +" Costs:"+cost)
-		//console.log("Bonus is:"+bonus)
 		
 		if(uppart == 4){
 			uppart++;
@@ -174,18 +146,14 @@
 	}
 	
 	canvas.addEventListener('click', function () {
-		//console.log('clicked!')
 		clicks++;
 		clickamount.innerHTML = clicks
-		//console.log()
 	})
 	
 	document.addEventListener('keydown', function(event){
-		if(event.keyCode == 85){					//85 = U-Key
+		if(event.keyCode == 85){					//85 == U-Key
 			upgrade();
-		}else if(event.keyCode == 116){				//116 = F5-Key
-			
-		}else{
+		}else if(event.keyCode != 116){				//116 == F5-Key
 			clicking();
 			if(document.getElementById('autobox').checked){
 				if(uppart == 5 || trees >= cost){
