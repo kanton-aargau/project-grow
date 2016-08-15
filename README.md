@@ -2,7 +2,7 @@
 My Version of 'Project Grow'
 
 What should it do
-- A tree that goes through 4 phases (actually 5 I know, but Phase 0 doesn't count and no, I don't hate 0 if you ask)
+- A tree that goes through 4 phases (actually 5 I know, but Phase 0 doesn't count)
 - Add trees to the counter after each cycle
 - Random leaf generating
 - Begin a new cycle after the last phase
