@@ -16,4 +16,5 @@ Additional Things I have done to the Project
 - Alternative to Klicking (Pressing a Key) for all the lazy people
 - Click Counter
 - Automatic Upgrading
-- Bad footer, will fix it sometime later
+- Footer with the link to the old version
+- Animated icon in the browser tab (favicon)
