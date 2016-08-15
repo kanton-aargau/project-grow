@@ -8,7 +8,7 @@ What should it do
 - Begin a new cycle after the last phase
 
 
-Additional Things I have done to the Project
+Additional Things I have done
 
 - Upgrade System
 - Upgrade Button
@@ -18,3 +18,5 @@ Additional Things I have done to the Project
 - Automatic Upgrading
 - Footer with the link to the old version
 - Animated icon in the browser tab (favicon)
+- Save and Load button (temporary stored with sessionStorage)
+- Colorful buttons
