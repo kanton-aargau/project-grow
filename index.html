@@ -1,182 +1,187 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset='UTF-8'>
-  <title>Project Grow</title>
-  <style>
-	html{
-		height: 100%;
-		box-sizing: border-box;
-	}
-	body {
-		margin-top: 5%;
-		text-align: center;
-		background-color: #e1e1e1;
-	}
-    h1 {
-      font-family: 'Arial';
-	  color: #248DC4;
-    }
-    canvas {
-      border: 10px solid black;
-	  background-color: #91C6E1;
-    }
-	.anzahl{
-		display: inline-block;
-		font-size: 25px;
-		color: #1c709c;
-	}
-	.noline p{
-		display: inline-block;
-	}
-	#text{
-		min-height: 100%;
-	}
-	#footer{
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		height:30px;
-		background:black;
-	}
-	#footer a{
-		color: white;
-	}
-  </style>
-</head>
-<body>
-  <h1>Project Grow</h1>
-  <canvas id='js-canvas' width="900" height="400" onclick="clicking()"></canvas>
-  <script>
-	var canvas = document.getElementById('js-canvas')
-	var ctx = canvas.getContext('2d')
-	var leafs = 0
-	var phase = 1
-	var trees = 0
-	var basecost = 10
-	var uppart = 1
-	var bonus = 0
-	var cost = 6
-	var clicks = 0
-	
-	//Function for making leafs
-	function makeleaf(leafs, max1, min1, max2, min2, color){
-		for(i = 0; i < leafs; i++){
-			ctx.fillStyle = color
-			randx = Math.floor(Math.random() * (max1-min1)+min1);
-			randy = Math.floor(Math.random() * (max2-min2)+min2);
-			size = Math.floor(Math.random() * (25-10)+10);
-			ctx.fillRect ((250+randx), randy, size, size);
-		}
-	}
-	function clicking(){
-		//Switch for changing Phases
-		switch(phase){
-			case 0: phase0()
-			break;
-			case 1: phase1()
-			break;
-			case 2: phase2()
-			break;
-			case 3: phase3()
-			break;
-			case 4: phase4()
-			break;
-			default: console.log("ERROR")
-		}
-	}
-	
-	function phase0(){
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		phase++;
-		trees += bonus + 1;
-		amount.innerHTML = trees
-		if(document.getElementById('autobox').checked){
-			upgrade();
-		}
-	}
-	
-	function phase1(){
-		phase++		
-		ctx.fillStyle = '#813131'
-		ctx.fillRect (440, 370, 20, 20)
-	}
-	
-	function phase2(){
-		phase++
-		ctx.fillRect (430, 120, 40, 270)
-	}
-	
-	function phase3(){
-		phase++
-		makeleaf(60, 270, 110, 180, 70, '#228b22')
-	}
-	function phase4(){
-		phase = 0
-		makeleaf(150, 320, 50, 250, 40, '#228b22')
-		makeleaf(20, 300, 80, 220, 90, '#DD1600')
-	}
-	
-	//Function for Upgrading
-	function upgrade(){
-		upbutton.innerHTML = "Upgrade"
-		if(trees >= cost && uppart < 4){
-			uppart++;
-			trees -= cost;
-		}
-		
-		if(uppart == 5){
-			uppart = 1;
-			bonus++;
-		}
-		
-		cost = Math.floor((uppart * 0.75)*(bonus + 0.8)*basecost);
-		amount.innerHTML = trees
-		upgradepart.innerHTML = uppart
-		upcost.innerHTML = cost+"&nbspTrees"
-		bonustrees.innerHTML = bonus
-		
-		
-		if(uppart == 4){
-			uppart++;
-			upbutton.innerHTML = "Upgrade Ready"
-			upcost.innerHTML = "Free upgrade, no trees"
-		}
-	}
-	
-	canvas.addEventListener('click', function () {
-		clicks++;
-		clickamount.innerHTML = clicks
-	})
-	
-	document.addEventListener('keydown', function(event){
-		if(event.keyCode == 85){					//85 == U-Key
-			upgrade();
-		}else if(event.keyCode != 116){				//116 == F5-Key
-			clicking();
-			if(document.getElementById('autobox').checked){
-				if(uppart == 5 || trees >= cost){
-					upgrade();
-				}
+	<head>
+		<meta charset='UTF-8'>
+		<title>Project Grow</title>
+		<link rel="icon" href="00_Pictures\icon.gif">
+		<style>
+			html, body{
+				height: 100%;
 			}
-		}
-	})
-  </script>
-  <br>
-  <div id="text">
-	  <p class="anzahl">Number of trees: </p>
-	  <p id="amount" class="active, anzahl">0</p>
-	  <br>
-	  <div class="noline">
-		  <p>Additional tree per Cycle:&nbsp <p id="bonustrees" class="active">0</p></p><br>
-		  <p><button onclick="upgrade()" ><p id="upbutton" class="active">Upgrade</p>
-		  </button> Part&nbsp <p id="upgradepart" class="active">1</p> out of 4</p><br>
-		  <p>Upgrade cost:&nbsp <p id="upcost" class="active">6 Trees</p></p><br>
-		  <p>Automatic Upgrading: <input type="checkbox" id="autobox">
-	  </div>
-	  <h3>Amount of Clicks <p id="clickamount">0</p></h3>
-  </div>
-  <div id="footer"><a href="old_index.html">Project Grow, old version</a></div>
-</body>
+			body {
+				margin-top: 5%;
+				text-align: center;
+				background-color: #e1e1e1;
+			}
+			h1 {
+			  font-family: 'Arial';
+			  color: #248DC4;
+			}
+			canvas {
+			  border: 10px solid black;
+			  background-color: #91C6E1;
+			}
+			.anzahl{
+				display: inline-block;
+				font-size: 25px;
+				color: #1c709c;
+			}
+			.noline p{
+				display: inline-block;
+			}
+			.container{
+				min-height: 100%;
+				margin-bottom: -30px;
+			}
+			.container:after{
+				content: "";
+				display: block;
+			}
+			.footer, .container:after{
+				height: 30px;
+			}
+			.footer{
+				background:black;
+			}
+			.footer a{
+				color: white;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<h1>Project Grow</h1>
+			<canvas id='js-canvas' width="900" height="400" onclick="clicking()"></canvas>
+			<script>
+				var canvas = document.getElementById('js-canvas')
+				var ctx = canvas.getContext('2d')
+				var leafs = 0
+				var phase = 1
+				var trees = 0
+				var basecost = 10
+				var uppart = 1
+				var bonus = 0
+				var cost = 6
+				var clicks = 0
+				
+				//Function for making leafs
+				function makeleaf(leafs, max1, min1, max2, min2, color){
+					for(i = 0; i < leafs; i++){
+						ctx.fillStyle = color
+						randx = Math.floor(Math.random() * (max1-min1)+min1);
+						randy = Math.floor(Math.random() * (max2-min2)+min2);
+						size = Math.floor(Math.random() * (25-10)+10);
+						ctx.fillRect ((250+randx), randy, size, size);
+					}
+				}
+				function clicking(){
+					//Switch for changing Phases
+					switch(phase){
+						case 0: phase0()
+						break;
+						case 1: phase1()
+						break;
+						case 2: phase2()
+						break;
+						case 3: phase3()
+						break;
+						case 4: phase4()
+						break;
+						default: console.log("ERROR")
+					}
+				}
+				
+				function phase0(){
+					ctx.clearRect(0, 0, canvas.width, canvas.height);
+					phase++;
+					trees += bonus + 1;
+					amount.innerHTML = trees
+					if(document.getElementById('autobox').checked){
+						upgrade();
+					}
+				}
+				
+				function phase1(){
+					phase++		
+					ctx.fillStyle = '#813131'
+					ctx.fillRect (440, 370, 20, 20)
+				}
+				
+				function phase2(){
+					phase++
+					ctx.fillRect (430, 120, 40, 270)
+				}
+				
+				function phase3(){
+					phase++
+					makeleaf(60, 270, 110, 180, 70, '#228b22')
+				}
+				function phase4(){
+					phase = 0
+					makeleaf(150, 320, 50, 250, 40, '#228b22')
+					makeleaf(20, 300, 80, 220, 90, '#DD1600')
+				}
+				
+				//Function for Upgrading
+				function upgrade(){
+					upbutton.innerHTML = "Upgrade"
+					if(trees >= cost && uppart < 4){
+						uppart++;
+						trees -= cost;
+					}
+					
+					if(uppart == 5){
+						uppart = 1;
+						bonus++;
+					}
+					
+					cost = Math.floor((uppart * 0.75)*(bonus + 0.8)*basecost);
+					amount.innerHTML = trees
+					upgradepart.innerHTML = uppart
+					upcost.innerHTML = cost+"&nbspTrees"
+					bonustrees.innerHTML = bonus
+					
+					
+					if(uppart == 4){
+						uppart++;
+						upbutton.innerHTML = "Upgrade Ready"
+						upcost.innerHTML = "Free upgrade, no trees"
+					}
+				}
+				
+				canvas.addEventListener('click', function () {
+					clicks++;
+					clickamount.innerHTML = clicks
+				})
+				
+				document.addEventListener('keydown', function(event){
+					if(event.keyCode == 85){					//85 == U-Key
+						upgrade();
+					}else if(event.keyCode != 116){				//116 == F5-Key
+						clicking();
+						if(document.getElementById('autobox').checked){
+							if(uppart == 5 || trees >= cost){
+								upgrade();
+							}
+						}
+					}
+				})
+			</script>
+			<br>
+			<div id="text">
+				<p class="anzahl">Number of trees: </p>
+				<p id="amount" class="active, anzahl">0</p>
+				<br>
+				<div class="noline">
+					<p>Additional tree per Cycle:&nbsp <p id="bonustrees" class="active">0</p></p><br>
+					<p><button onclick="upgrade()" ><p id="upbutton" class="active">Upgrade</p>
+					</button> Part&nbsp <p id="upgradepart" class="active">1</p> out of 4</p><br>
+					<p>Upgrade cost:&nbsp <p id="upcost" class="active">6 Trees</p></p><br>
+					<p>Automatic Upgrading: <input type="checkbox" id="autobox">
+				</div>
+				<h3>Amount of Clicks <p id="clickamount">0</p></h3>
+			</div>
+		</div>
+		<div class="footer"><a href="old_index.html">Project Grow, old version</a></div>
+	</body>
 </html>
