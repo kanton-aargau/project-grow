@@ -14,14 +14,19 @@
 				var canvas = document.getElementById('js-canvas')
 				var ctx = canvas.getContext('2d')
 				var phase = 1
-				var trees = 0
+				var apples = 0
 				var basecost = 10
 				var uppart = 1
 				var bonus = 0
 				var cost = 6
 				var clicks = 0
 				
-				
+				//Makes a save if there's no data
+				if(sessionStorage.getItem('saved') != 1){
+						savedata()
+						console.log('Finished auto-save')
+				}
+
 				//Function for making leafs
 				function makeleaf(leafs, max1, min1, max2, min2, color){
 					for(i = 0; i < leafs; i++){
@@ -30,6 +35,28 @@
 						randy = Math.floor(Math.random() * (max2-min2)+min2);
 						size = Math.floor(Math.random() * (25-10)+10);
 						ctx.fillRect ((250+randx), randy, size, size);
+					}
+				}
+
+				function makeapple(apples, max1, min1, max2, min2){
+						for(i = 0; i < apples; i++){
+
+							//Generating random color for the apples
+							//console.log('generating random color for the apples')
+							nr1 = (Math.floor(Math.random() * (15-7)+7)).toString(16);
+							//console.log('First:'+nr1)
+							nr2 = (Math.floor(Math.random() * (15-0))).toString(16);
+							nr3 = (Math.floor(Math.random() * (7-0))).toString(16);
+							//console.log('First:'+nr2)
+							var color = '#'+nr1+nr2+nr3+'000'
+							//console.log(color)
+
+							//console.log('apple')
+							ctx.fillStyle = color
+							randx = Math.floor(Math.random() * (max1-min1)+min1);
+							randy = Math.floor(Math.random() * (max2-min2)+min2);
+							size = Math.floor(Math.random() * (25-10)+10);
+							ctx.fillRect ((250+randx), randy, size, size);
 					}
 				}
 				
@@ -55,8 +82,8 @@
 				function phase0(){
 					ctx.clearRect(0, 0, canvas.width, canvas.height);
 					phase++;
-					trees += bonus + 1;
-					amount.innerHTML = trees
+					apples += bonus + 1;
+					amount.innerHTML = apples
 					if(document.getElementById('autobox').checked){
 						upgrade();
 					}
@@ -77,15 +104,20 @@
 				function phase4(){
 					phase = 0
 					makeleaf(150, 320, 50, 250, 40, '#228b22')
-					makeleaf(20, 300, 80, 220, 90, '#DD1600')
+
+					if(bonus+1 <= 100){
+						makeapple(bonus+1, 300, 80, 220, 90)
+					}else{
+						makeapple(100, 300, 80, 220, 90)
+					}
 				}
 				
 				//Function for Upgrading
 				function upgrade(){
 					upbutton.innerHTML = "Upgrade"
-					if(trees >= cost && uppart < 4){
+					if(apples >= cost && uppart < 4){
 						uppart++;
-						trees -= cost;
+						apples -= cost;
 					}
 					
 					if(uppart == 5){
@@ -94,34 +126,34 @@
 					}
 					
 					cost = Math.floor((uppart * 0.75)*(bonus + 0.8)*basecost);
-					amount.innerHTML = trees
+					amount.innerHTML = apples
 					upgradepart.innerHTML = uppart
-					upcost.innerHTML = cost+"&nbspTrees"
-					bonustrees.innerHTML = bonus
+					upcost.innerHTML = cost+"&nbspapples"
+					bonusapples.innerHTML = bonus
 					
 					
 					if(uppart == 4){
 						uppart++;
 						upbutton.innerHTML = "Upgrade Ready"
-						upcost.innerHTML = "Free upgrade, no trees"
+						upcost.innerHTML = "Free upgrade, no apples"
 					}
 				}
 				
 				function savedata(){
 					sessionStorage.setItem('phase', phase);
-					sessionStorage.setItem('trees', trees);
+					sessionStorage.setItem('apples', apples);
 					sessionStorage.setItem('basecost', basecost);
 					sessionStorage.setItem('uppart', uppart);
 					sessionStorage.setItem('bonus', bonus);
-					sessionStorage.setItem('cost', cost);
 					sessionStorage.setItem('clicks', clicks);
+					sessionStorage.setItem('saved', '1')
 					
 					console.log('saved')
 				}
 				
 				function loaddata(){
 					phase = 0
-					trees = parseInt(sessionStorage.getItem('trees'));
+					apples = parseInt(sessionStorage.getItem('apples'));
 					basecost = parseInt(sessionStorage.getItem('basecost'));
 					uppart = parseInt(sessionStorage.getItem('uppart'));
 					bonus = parseInt(sessionStorage.getItem('bonus'));
@@ -129,10 +161,10 @@
 					clicks = parseInt(sessionStorage.getItem('clicks'));
 					
 					upgradepart.innerHTML = uppart
-					upcost.innerHTML = cost+"&nbspTrees"
-					bonustrees.innerHTML = bonus
+					upcost.innerHTML = cost+"&nbspapples"
+					bonusapples.innerHTML = bonus
 					clickamount.innerHTML = clicks
-					amount.innerHTML = trees
+					amount.innerHTML = apples
 
 					console.log('loaded')
 				}
@@ -148,7 +180,7 @@
 					}else if(event.keyCode != 116){				//116 == F5-Key
 						clicking();
 						if(document.getElementById('autobox').checked){
-							if(uppart == 5 || trees >= cost){
+							if(uppart == 5 || apples >= cost){
 								upgrade();
 							}
 						}
@@ -157,14 +189,14 @@
 			</script>
 			<br>
 			<div id="text">
-				<p class="anzahl">Number of trees: </p>
-				<p id="amount" class="active anzahl">0</p>
+				<p class="treenmbr">Number of apples: </p>
+				<p id="amount" class="active treenmbr">0</p>
 				<br>
 				<div class="noline">
-					<p>Additional tree per Cycle:&nbsp <p id="bonustrees" class="active">0</p></p><br>
+					<p>Additional apple per Cycle:&nbsp <p id="bonusapples" class="active">0</p></p><br>
 					<p><button onclick="upgrade()" class="myButton2"><p id="upbutton" class="active">Upgrade</p>
 					</button> Part&nbsp <p id="upgradepart" class="active">1</p> out of 4</p><br>
-					<p>Upgrade cost:&nbsp <p id="upcost" class="active">6 Trees</p></p><br>
+					<p>Upgrade cost:&nbsp <p id="upcost" class="active">6 apples</p></p><br>
 					<p>Automatic Upgrading: <input type="checkbox" id="autobox">
 				</div>
 				<button onclick="savedata()" class="myButton">Save Data</button>
