@@ -1,10 +1,15 @@
+<!-- Made by Sebastian Lack -->
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset='UTF-8'>
 		<title>Project Grow</title>
 		<link rel="icon" href="00_Pictures\icon.gif">
-		<link rel="stylesheet" href="main.css">
+		<link rel="stylesheet" href="css\main.css">
+		<link rel="stylesheet" href="css\alertify.bootstrap.css">
+		<link rel="stylesheet" href="css\alertify.core.css">
+		<link rel="stylesheet" href="css\alertify.default.css">
+		 <script src="alertify.js"></script>
 	</head>
 	<body>
 		<div class="container">
@@ -20,6 +25,9 @@
 				var bonus = 0
 				var cost = 6
 				var clicks = 0
+				var int = 0
+				var scrolled = 0
+				var achievement = 0
 				
 				//Makes a save if there's no data
 				if(sessionStorage.getItem('saved') != 1){
@@ -40,18 +48,12 @@
 
 				function makeapple(apples, max1, min1, max2, min2){
 						for(i = 0; i < apples; i++){
-
 							//Generating random color for the apples
-							//console.log('generating random color for the apples')
 							nr1 = (Math.floor(Math.random() * (15-7)+7)).toString(16);
-							//console.log('First:'+nr1)
 							nr2 = (Math.floor(Math.random() * (15-0))).toString(16);
 							nr3 = (Math.floor(Math.random() * (7-0))).toString(16);
-							//console.log('First:'+nr2)
 							var color = '#'+nr1+nr2+nr3+'000'
-							//console.log(color)
 
-							//console.log('apple')
 							ctx.fillStyle = color
 							randx = Math.floor(Math.random() * (max1-min1)+min1);
 							randy = Math.floor(Math.random() * (max2-min2)+min2);
@@ -76,6 +78,30 @@
 						default: console.log("ERROR")
 						console.log("Phase is:"+phase)
 					}
+					if(apples >= 100 && apples < 150){
+							achievement = 1
+							console.log('achievement 1')
+					}else if(apples >= 150 && apples < 200){
+							achievement = 2
+							console.log('achievement 2')
+					}else if(apples >= 200 && apples < 250){
+							achievement = 3
+							console.log('achievement 3')
+					}else if(apples >= 250){
+							achievement = 4
+							console.log('achievement 4')
+					}
+					switch(achievement){
+							case 1: alertify.log("<h3>Achievement get</h3><br> You are wasting your life");
+							break;
+							case 2: alertify.log("<h3>Achievement get</h3><br> You are REALLY wasting your time right now");
+							break;
+							case 3: alertify.log("<h3>Achievement get</h3><br> Aren't you listening to me, stop wasting your time");
+							break;
+							case 4: alertify.log("<h3>Screw it, I'm giving up, just do whatever you want");
+							break;
+							default:
+					}
 				}
 				
 				//Functions for the 5 phases
@@ -85,8 +111,10 @@
 					apples += bonus + 1;
 					amount.innerHTML = apples
 					if(document.getElementById('autobox').checked){
-						upgrade();
+							upgrade();
 					}
+
+					
 				}
 				function phase1(){
 					phase++		
@@ -169,41 +197,65 @@
 					console.log('loaded')
 				}
 				
+				function cheat(){
+						alertify.prompt("How much apples do you want to add", function(empty, add){
+								add = parseInt(add)
+								if(isNaN(add)){
+										add = 0
+										console.log('Its not a number)
+								}else{
+									apples += add;
+								}
+								amount.innerHTML = apples
+						})
+				}
+
 				canvas.addEventListener('click', function () {
 					clicks++;
 					clickamount.innerHTML = clicks
 				})
 				
 				document.addEventListener('keydown', function(event){
-					if(event.keyCode == 85){					//85 == U-Key
-						upgrade();
-					}else if(event.keyCode != 116){				//116 == F5-Key
-						clicking();
-						if(document.getElementById('autobox').checked){
-							if(uppart == 5 || apples >= cost){
-								upgrade();
-							}
-						}
+					if(event.keyCode >= 48 && event.keyCode <= 57 || event.keyCode >= 96 && event.keyCode <= 105){
+							return;
 					}
+					//console.log(event.which)
+					switch(event.keyCode){
+							case 8: 	//nothing happens		//Backspace-Key
+							case 13: 	//nothing happens		//Enter-Key
+							case 116: //nothing happens		//F5-Key
+							break;
+							case 85: upgrade();						//U-Key
+							break;
+							case 67: cheat()							//C-Key
+							break;
+							default: clicking();
+					}
+				})
+
+				document.addEventListener('DOMMouseScroll', function(test){
+						clicking()
 				})
 			</script>
 			<br>
 			<div id="text">
-				<p class="treenmbr">Number of apples: </p>
-				<p id="amount" class="active treenmbr">0</p>
-				<br>
+				<p class="applenmbr">Number of apples: </p>
+				<p id="amount" class="active applenmbr">0</p>
 				<div class="noline">
-					<p>Additional apple per Cycle:&nbsp <p id="bonusapples" class="active">0</p></p><br>
+					<p>Additional apple per Cycle:&nbsp <p id="bonusapples" class="active">0</p></p>
+					<br>
 					<p><button onclick="upgrade()" class="myButton2"><p id="upbutton" class="active">Upgrade</p>
-					</button> Part&nbsp <p id="upgradepart" class="active">1</p> out of 4</p><br>
-					<p>Upgrade cost:&nbsp <p id="upcost" class="active">6 apples</p></p><br>
-					<p>Automatic Upgrading: <input type="checkbox" id="autobox">
+					</button> Part&nbsp <p id="upgradepart" class="active">1</p> out of 4</p>
+					<br>
+					<p>Upgrade cost:&nbsp <p id="upcost" class="active">6 apples</p></p>
+					<br>
+					<p>Automatic Upgrading: <input type="checkbox" id="autobox"></p>
+					<br>
+					<p>Amount of Clicks: <p id="clickamount">0</p></p>
 				</div>
 				<button onclick="savedata()" class="myButton">Save Data</button>
 				<button onclick="loaddata()" class="myButton">Load Data</button>
-				<h3>Amount of Clicks <p id="clickamount">0</p></h3>
 			</div>
 		</div>
-		<div class="footer"><a href="old_index.html">Project Grow, old version</a></div>
 	</body>
 </html>
