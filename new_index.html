@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<!-- Autor:Kai Schmidli -->
 <html>
 <head>
   <meta charset='UTF-8'>
@@ -7,9 +9,9 @@
       font-family: 'Arial';
     }
 	body { 
- 		margin-top: 15%; 
+ 		margin-top: 10%; 
 		text-align: center; 
- 		background-color: 'SteelBlue'
+ 		background-color: steelblue;
  	} 
 
     canvas {
@@ -26,25 +28,20 @@
   <script>
     var canvas = document.getElementById('js-canvas')
     var ctx = canvas.getContext('2d')
-	var phase = 1
-	var trees = 0
-	var clicks = 0
-	
-	var jokelevel
-	
-	
-	
-	
-	var min = 20;
-	var max = 400;		
-	var a = (Math.random() * (max - min)) + min;
-	var b = (Math.random() * (max - min)) + min;
-	var c = (Math.random() * (max - min)) + min;
-	var d = (Math.random() * (max - min)) + min;
-	var e = (Math.random() * (max - min)) + min;
-	var f = (Math.random() * (max - min)) + min;
-	var g = (Math.random() * (max - min)) + min;
-	
+		var phase = 1
+		var trees = 0
+		var clicks = 0
+
+		function makeDecoration(flakes ,min ,max ,min2 ,max2,color){	
+					for (i = 0; i < flakes; i++) {
+						ctx.fillStyle = color
+		 				size = Math.floor(Math.random() * (25 - 10) + 10);
+		 				randx = Math.floor(Math.random() * (max - min) + min);
+						randy = Math.floor(Math.random() * (max2 - min2) + min2);
+						ctx.fillRect(randx,randy,size,size);
+					}
+		}
+
 	//Function for Clicking	
 	function clicking(){
 		//Switch for changing Phases
@@ -59,8 +56,6 @@
 			break;
 			case 4: phase4() 			
 			break;
-			Numbers()
-			default: console.log("Fehler")
 		}
 	}
 	function phase0(){
@@ -74,13 +69,11 @@
 	function phase1(){
 		phase++
 		ctx.fillStyle = 'Peru'
-		// x -> 10,
-		// y -> 10,
-		// width -> 50,
-		// height -> 50
-		ctx.fillRect (160, 360, 80, 70)		//1
-		ctx.fillRect (180, 340, 40, 40)		//2
-		console.log("Phase is 1")
+	
+		ctx.fillRect (160, 360, 80, 70)		
+		ctx.fillRect (180, 340, 40, 40)	
+		ctx.fillStyle = 'white'
+
 	}
 	
 	function phase2(){
@@ -127,15 +120,14 @@
 		phase = 0
 		
 		ctx.fillStyle = 'PaleGoldenRod'
-		ctx.fillRect (a, g, 45, 45)		
+				
 		
-		ctx.fillRect (b, f, 35, 35)		
-		ctx.fillRect (c, e, 35, 35)			
-		ctx.fillRect (d, d, 25, 25)		
-		ctx.fillRect (e, c, 15, 15)		
-		ctx.fillRect (f, b, 15, 15)		
-		ctx.fillRect (g, a, 15, 15)		
+		makeDecoration(7, 260, 100, 80, 320, 'PaleGoldenRod')
+		makeDecoration(7, 260, 100, 80, 320, 'DodgerBlue')
+		makeDecoration(7, 260, 100, 80, 320, 'crimson')
 		
+		
+		ctx.fillStyle = 'IndianRed'
 		ctx.fillRect (50, 335, 20, 20)
 		ctx.fillRect (330, 335, 20, 20)
 		
@@ -153,11 +145,8 @@
 	canvas.addEventListener('click', function () {
 		console.log('clicked!')
 		console.log()
-		clicks++ 
-		
-		amount2.innerHTML = clicks;	
-		
-		
+		clicks++
+		amount2.innerHTML = clicks;
 	})
 	
 
@@ -175,3 +164,4 @@
   
 </body>
 </html>
+
