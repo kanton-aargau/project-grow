@@ -28,6 +28,7 @@
 				var int = 0
 				var scrolled = 0
 				var achievement = 0
+				var already = 0
 				
 				//Makes a save if there's no data
 				if(sessionStorage.getItem('saved') != 1){
@@ -80,27 +81,31 @@
 					}
 					if(apples >= 100 && apples < 150){
 							achievement = 1
-							console.log('achievement 1')
 					}else if(apples >= 150 && apples < 200){
 							achievement = 2
-							console.log('achievement 2')
 					}else if(apples >= 200 && apples < 250){
 							achievement = 3
-							console.log('achievement 3')
-					}else if(apples >= 250){
+					}else if(apples >= 250 && apples < 300){
 							achievement = 4
-							console.log('achievement 4')
+					}else if(apples > 9000){
+							achievement = 5
 					}
-					switch(achievement){
-							case 1: alertify.log("<h3>Achievement get</h3><br> You are wasting your life");
+					switch(achievement+'-'+already){
+							case '1-0': alertify.log("<h3>Achievement get</h3><br> You are wasting your life");
+												already++;
 							break;
-							case 2: alertify.log("<h3>Achievement get</h3><br> You are REALLY wasting your time right now");
+							case '2-1': alertify.log("<h3>Achievement get</h3><br> You are REALLY wasting your time right now");
+												already++;
 							break;
-							case 3: alertify.log("<h3>Achievement get</h3><br> Aren't you listening to me, stop wasting your time");
+							case '3-2': alertify.log("<h3>Achievement get</h3><br> Aren't you listening to me, stop wasting your time");
+												already++;
 							break;
-							case 4: alertify.log("<h3>Screw it, I'm giving up, just do whatever you want");
+							case '4-3': alertify.log("<h3>Screw it, I'm giving up, just do whatever you want</h3>");
+												already++;
 							break;
-							default:
+							case '5-4': alertify.log("<h3>You really want to do this, well then, its over 9000, yey funny reference");
+												already++;
+							break;
 					}
 				}
 				
@@ -201,9 +206,9 @@
 						alertify.prompt("How much apples do you want to add", function(empty, add){
 								add = parseInt(add)
 								if(isNaN(add)){
-									add = 0
-									console.log('its not a number')
-								}else{
+										add = 0
+										console.log('its not a number')
+									}else{
 									apples += add;
 								}
 								amount.innerHTML = apples
@@ -239,7 +244,7 @@
 			</script>
 			<br>
 			<div id="text">
-				<p class="applenmbr">Number of apples: </p>
+				<p class="applenmbr">Number of apples</p>
 				<p id="amount" class="active applenmbr">0</p>
 				<div class="noline">
 					<p>Additional apple per Cycle:&nbsp <p id="bonusapples" class="active">0</p></p>
