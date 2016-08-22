@@ -21,12 +21,10 @@ Additional Things I have done
   - Even another alternative to clicking, just scroll
   - Click Counter
 
-- Random Hex-Color Generator, for
-  The apples, leafs and finally, even the tree
-
 - Miscellaneous things
   - Animated icon in the browser tab (favicon)
   - Save and Load your data (only temporary, until you close your browser)
   - Colorful buttons
   - Amount of apple per cycle (up till 100) will be displayed on the tree
   - Cheat your way through by using the 'C' key on your keyboard to instantly add apples
+  - Random Hex-Color Generator, for the apples, leafs and finally, even the tree
