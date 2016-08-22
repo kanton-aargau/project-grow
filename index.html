@@ -37,8 +37,14 @@
 				}
 
 				//Function for making leafs
-				function makeleaf(leafs, max1, min1, max2, min2, color){
+				function makeleaf(leafs, max1, min1, max2, min2){
 					for(i = 0; i < leafs; i++){
+						//Generate random color for the leafs
+						nr1 = (Math.floor(Math.random() * (10))).toString(16);
+						nr2 = (Math.floor(Math.random() * (15))).toString(16);
+						nr3 = (Math.floor(Math.random() * (14-11)+11)).toString(16);
+						var color = '#'+nr1+nr2+nr3+'000'
+
 						ctx.fillStyle = color
 						randx = Math.floor(Math.random() * (max1-min1)+min1);
 						randy = Math.floor(Math.random() * (max2-min2)+min2);
@@ -51,8 +57,8 @@
 						for(i = 0; i < apples; i++){
 							//Generating random color for the apples
 							nr1 = (Math.floor(Math.random() * (15-7)+7)).toString(16);
-							nr2 = (Math.floor(Math.random() * (15-0))).toString(16);
-							nr3 = (Math.floor(Math.random() * (7-0))).toString(16);
+							nr2 = (Math.floor(Math.random() * (15))).toString(16);
+							nr3 = (Math.floor(Math.random() * (7))).toString(16);
 							var color = '#'+nr1+nr2+nr3+'000'
 
 							ctx.fillStyle = color
@@ -61,6 +67,9 @@
 							size = Math.floor(Math.random() * (25-10)+10);
 							ctx.fillRect ((250+randx), randy, size, size);
 					}
+				}
+
+				function maketree(){
 				}
 				
 				function clicking(){
@@ -103,7 +112,7 @@
 							case '4-3': alertify.log("<h3>Screw it, I'm giving up, just do whatever you want</h3>");
 												already++;
 							break;
-							case '5-4': alertify.log("<h3>You really want to do this, well then, its over 9000, yey funny reference");
+							case '5-4': alertify.log("<h3>You really want to do this, well then, its over 9000, yeah funny reference");
 												already++;
 							break;
 					}
@@ -128,15 +137,31 @@
 				}
 				function phase2(){
 					phase++
-					ctx.fillRect (430, 120, 40, 270)
+					//Make random tree color
+					randx = 175
+					for(i = 0; i <= 4; i++){
+					randy = 100
+						for(z = 0; z <= 28; z++){
+							nr1 = (Math.floor(Math.random() * (7-4)+4)).toString(16);
+							nr2 = (Math.floor(Math.random() * (12-7)+7)).toString(16);
+							nr3 = (Math.floor(Math.random() * (3-2)+2)).toString(16);
+							nr4 = (Math.floor(Math.random() * (14))).toString(16);
+							ctx.fillStyle = '#'+nr1+nr2+nr3+nr4+'00'
+							
+							ctx.fillRect ((250+randx), randy, 10, 10);
+							randy += 10
+						}
+						randx += 10
+					}
+					
 				}
 				function phase3(){
 					phase++
-					makeleaf(60, 270, 110, 180, 70, '#228b22')
+					makeleaf(60, 270, 110, 180, 70)
 				}
 				function phase4(){
 					phase = 0
-					makeleaf(150, 320, 50, 250, 40, '#228b22')
+					makeleaf(150, 320, 50, 250, 40)
 
 					if(bonus+1 <= 100){
 						makeapple(bonus+1, 300, 80, 220, 90)
@@ -162,7 +187,7 @@
 					amount.innerHTML = apples
 					upgradepart.innerHTML = uppart
 					upcost.innerHTML = cost+"&nbspapples"
-					bonusapples.innerHTML = bonus
+					bonusapples.innerHTML = bonus+1
 					
 					
 					if(uppart == 4){
@@ -228,17 +253,17 @@
 					switch(event.keyCode){
 							case 8: 	//nothing happens		//Backspace-Key
 							case 13: 	//nothing happens		//Enter-Key
-							case 116: //nothing happens		//F5-Key
+							case 116:	//nothing happens		//F5-Key
 							break;
-							case 85: upgrade();						//U-Key
+							case 85: upgrade();					//U-Key
 							break;
-							case 67: cheat()							//C-Key
+							case 67: cheat()					//C-Key
 							break;
 							default: clicking();
 					}
 				})
 
-				document.addEventListener('DOMMouseScroll', function(test){
+				document.addEventListener('DOMMouseScroll', function(){
 						clicking()
 				})
 			</script>
@@ -247,7 +272,7 @@
 				<p class="applenmbr">Number of apples</p>
 				<p id="amount" class="active applenmbr">0</p>
 				<div class="noline">
-					<p>Additional apple per Cycle:&nbsp <p id="bonusapples" class="active">0</p></p>
+					<p>Apples per Cycle:&nbsp <p id="bonusapples" class="active">0</p></p>
 					<br>
 					<p><button onclick="upgrade()" class="myButton2"><p id="upbutton" class="active">Upgrade</p>
 					</button> Part&nbsp <p id="upgradepart" class="active">1</p> out of 4</p>
