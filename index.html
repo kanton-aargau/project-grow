@@ -9,7 +9,7 @@
 		<link rel="stylesheet" href="css\alertify.bootstrap.css">
 		<link rel="stylesheet" href="css\alertify.core.css">
 		<link rel="stylesheet" href="css\alertify.default.css">
-		 <script src="alertify.js"></script>
+		<script src="js\alertify.js"></script>
 	</head>
 	<body>
 		<div class="container">
@@ -20,15 +20,24 @@
 				var ctx = canvas.getContext('2d')
 				var phase = 1
 				var apples = 0
+				var clicks = 0
 				var basecost = 10
 				var uppart = 1
 				var bonus = 0
 				var cost = 6
-				var clicks = 0
-				var int = 0
-				var scrolled = 0
 				var achievement = 0
 				var already = 0
+				var stop = 0
+				var basefarmer = 50
+				var farmeramount = 0
+				var basefertilizer = 200
+				var feramount = 0
+				var farmercost = 0
+				var fercost = 0
+				var baseharv = 1000
+				var harvamount = 0
+
+				//updatecost()
 				
 				//Makes a save if there's no data
 				if(sessionStorage.getItem('saved') != 1){
@@ -48,30 +57,33 @@
 						ctx.fillStyle = color
 						randx = Math.floor(Math.random() * (max1-min1)+min1);
 						randy = Math.floor(Math.random() * (max2-min2)+min2);
-						size = Math.floor(Math.random() * (25-10)+10);
+						size = Math.floor(Math.random() * (25-15)+15);
 						ctx.fillRect ((250+randx), randy, size, size);
 					}
 				}
 
+				//Function for making apples
 				function makeapple(apples, max1, min1, max2, min2){
 						for(i = 0; i < apples; i++){
 							//Generating random color for the apples
-							nr1 = (Math.floor(Math.random() * (15-7)+7)).toString(16);
+							nr1 = (Math.floor(Math.random() * (15-12)+12)).toString(16);
 							nr2 = (Math.floor(Math.random() * (15))).toString(16);
-							nr3 = (Math.floor(Math.random() * (7))).toString(16);
-							var color = '#'+nr1+nr2+nr3+'000'
+							var color = '#'+nr1+nr2+'0000'
 
 							ctx.fillStyle = color
+
+							//Golden apple if random number is 50 (checks every apple till the 50th one)
+							if(Math.floor(Math.random() * (300)) == 24 && i <= 50){
+								goldapple();
+							}
+
 							randx = Math.floor(Math.random() * (max1-min1)+min1);
 							randy = Math.floor(Math.random() * (max2-min2)+min2);
-							size = Math.floor(Math.random() * (25-10)+10);
+							size = Math.floor(Math.random() * (25-15)+15);
 							ctx.fillRect ((250+randx), randy, size, size);
 					}
 				}
 
-				function maketree(){
-				}
-				
 				function clicking(){
 					//Switch for changing Phases
 					switch(phase){
@@ -88,13 +100,18 @@
 						default: console.log("ERROR")
 						console.log("Phase is:"+phase)
 					}
-					if(apples >= 100 && apples < 150){
+					achievements()
+				}
+
+				function achievements(){
+					//Check apples for the achievements
+					if(apples >= 100 && apples < 300){
 							achievement = 1
-					}else if(apples >= 150 && apples < 200){
+					}else if(apples >= 500 && apples < 1000){
 							achievement = 2
-					}else if(apples >= 200 && apples < 250){
+					}else if(apples >= 2000 && apples < 3000){
 							achievement = 3
-					}else if(apples >= 250 && apples < 300){
+					}else if(apples >= 4000 && apples < 7000){
 							achievement = 4
 					}else if(apples > 9000){
 							achievement = 5
@@ -118,7 +135,7 @@
 					}
 				}
 				
-				//Functions for the 5 phases
+				//Functions for the 5 phases----------------------------------------------------------------------------------------------------
 				function phase0(){
 					ctx.clearRect(0, 0, canvas.width, canvas.height);
 					phase++;
@@ -126,9 +143,7 @@
 					amount.innerHTML = apples
 					if(document.getElementById('autobox').checked){
 							upgrade();
-					}
-
-					
+				}
 				}
 				function phase1(){
 					phase++		
@@ -153,15 +168,14 @@
 						}
 						randx += 10
 					}
-					
 				}
 				function phase3(){
 					phase++
-					makeleaf(60, 270, 110, 180, 70)
+					makeleaf(80, 270, 110, 180, 70)
 				}
 				function phase4(){
 					phase = 0
-					makeleaf(150, 320, 50, 250, 40)
+					makeleaf(200, 320, 50, 250, 40)
 
 					if(bonus+1 <= 100){
 						makeapple(bonus+1, 300, 80, 220, 90)
@@ -170,7 +184,7 @@
 					}
 				}
 				
-				//Function for Upgrading
+				//Function for Upgrading--------------------------------------------------------------------------------------------------------
 				function upgrade(){
 					upbutton.innerHTML = "Upgrade"
 					if(apples >= cost && uppart < 4){
@@ -178,33 +192,35 @@
 						apples -= cost;
 					}
 					
-					if(uppart == 5){
-						uppart = 1;
-						bonus++;
-					}
-					
-					cost = Math.floor((uppart * 0.75)*(bonus + 0.8)*basecost);
-					amount.innerHTML = apples
-					upgradepart.innerHTML = uppart
-					upcost.innerHTML = cost+"&nbspapples"
-					bonusapples.innerHTML = bonus+1
-					
-					
 					if(uppart == 4){
 						uppart++;
 						upbutton.innerHTML = "Upgrade Ready"
 						upcost.innerHTML = "Free upgrade, no apples"
 					}
+
+					if(uppart == 5){
+						uppart = 1;
+						bonus++;
+					}
+					
+					updatecost()
+					amount.innerHTML = apples
+					upgradepart.innerHTML = uppart
+					upcost.innerHTML = cost+"&nbspapples"
+					bonusapples.innerHTML = bonus+1
 				}
 				
+				//saving and loading data-------------------------------------------------------------------------------------------------------
 				function savedata(){
-					sessionStorage.setItem('phase', phase);
 					sessionStorage.setItem('apples', apples);
 					sessionStorage.setItem('basecost', basecost);
 					sessionStorage.setItem('uppart', uppart);
 					sessionStorage.setItem('bonus', bonus);
 					sessionStorage.setItem('clicks', clicks);
-					sessionStorage.setItem('saved', '1')
+					sessionStorage.setItem('farmeramount', farmeramount);
+					sessionStorage.setItem('feramount', feramount);
+					sessionStorage.setItem('harvamount', harvamount);
+					sessionStorage.setItem('saved', '1');
 					
 					console.log('saved')
 				}
@@ -215,18 +231,26 @@
 					basecost = parseInt(sessionStorage.getItem('basecost'));
 					uppart = parseInt(sessionStorage.getItem('uppart'));
 					bonus = parseInt(sessionStorage.getItem('bonus'));
-					cost = Math.floor((uppart * 0.75)*(bonus + 0.8)*basecost);
 					clicks = parseInt(sessionStorage.getItem('clicks'));
+					farmeramount = parseInt(sessionStorage.getItem('farmeramount'));
+					feramount = parseInt(sessionStorage.getItem('feramount'));
+					harvamount = parseInt(sessionStorage.getItem('harvamount'));
+					stop = 1
 					
 					upgradepart.innerHTML = uppart
-					upcost.innerHTML = cost+"&nbspapples"
-					bonusapples.innerHTML = bonus
+					bonusapples.innerHTML = bonus+1
 					clickamount.innerHTML = clicks
 					amount.innerHTML = apples
+					famount.innerHTML = "Farmer: "+farmeramount
+          fertiamount.innerHTML = "Fertilizer: "+feramount
+					hamount.innerHTML = "Harvester: "+harvamount
+
+					updatecost()
 
 					console.log('loaded')
 				}
 				
+				//Cheat and golden apple--------------------------------------------------------------------------------------------------------
 				function cheat(){
 						alertify.prompt("How much apples do you want to add", function(empty, add){
 								add = parseInt(add)
@@ -240,9 +264,21 @@
 						})
 				}
 
-				canvas.addEventListener('click', function () {
+				function goldapple(){
+						ctx.fillStyle = '#ffda00'
+						alertify.success("Congratulations, you got an Golden Apple and earned 10x your normal amount")
+						apples += 10*(bonus+1);
+						amount.innerHTML = apples
+				}
+
+				//Clicking, scrolling and pressing a key----------------------------------------------------------------------------------------
+				canvas.addEventListener('click', function (){
 					clicks++;
 					clickamount.innerHTML = clicks
+				})
+
+				document.addEventListener('DOMMouseScroll', function(){
+						clicking()
 				})
 				
 				document.addEventListener('keydown', function(event){
@@ -255,24 +291,132 @@
 							case 13: 	//nothing happens		//Enter-Key
 							case 116:	//nothing happens		//F5-Key
 							break;
-							case 85: upgrade();					//U-Key
-							break;
 							case 67: cheat()					//C-Key
+							break;
+							case 71: goldapple()			//G-Key
+							break;
+							case 85: upgrade();					//U-Key
 							break;
 							default: clicking();
 					}
 				})
 
-				document.addEventListener('DOMMouseScroll', function(){
-						clicking()
-				})
+				//Automatic farming, stop and start---------------------------------------------------------------------------------------------
+				//Start the automatic farming of apples again
+				function start(){
+					if(stop == 1){
+							stop = 0
+							farmer()
+							fertilizer()
+							harvester()
+							//console.log('started')
+					}
+				}
+
+				function updatecost(){
+						console.log('updated cost')
+						farmercost = Math.floor(basefarmer*(farmeramount*0.8));
+						fercost = Math.floor(basefertilizer*(feramount*0.8));
+						harvcost = Math.floor(baseharv*(harvamount*0.8));
+						cost = Math.floor((uppart * 0.75)*(bonus + 0.8)*basecost);
+
+						if(farmercost < basefarmer){
+							farmercost = basefarmer
+						}
+						fcost.innerHTML = "Cost: "+farmercost
+						if(fercost < basefertilizer){
+							fercost = basefertilizer
+						}
+						ferticost.innerHTML = "Cost: "+fercost
+						if(harvcost < baseharv){
+							harvcost = baseharv
+						}
+						hcost.innerHTML = "Cost: "+harvcost
+				}
+
+				//Buy a farmer for automatic farming of apples
+				function farmerbuy(){
+						//console.log(farmercost)
+						if(apples >= farmercost){
+							farmeramount++;
+							famount.innerHTML = "Farmer: "+farmeramount
+							apples -= farmercost;
+	            amount.innerHTML = apples
+	            if(farmeramount == 1){
+								farmer()
+							}
+						updatecost()
+						}
+				}
+				function farmer(){
+			    var id = setInterval(frame, 10000);
+			    function frame(){
+            apples += farmeramount;
+            amount.innerHTML = apples
+            achievements()
+            if(stop == 1){
+            	clearInterval(id);
+            }
+		    	}
+		    }
+
+		    //Buy fertilizer for even more automatic farming of apples, somehow
+		    function ferbuy() {
+						//console.log('fertilizer')
+						if(apples >= fercost){
+							feramount++;
+	            fertiamount.innerHTML = "Fertilizer: "+feramount
+							apples -= fercost;
+	            amount.innerHTML = apples
+	            if(feramount == 1){
+								fertilizer()
+							}
+						updatecost()
+						}
+				}
+				function fertilizer(){
+			    var id = setInterval(frame, 2000);
+			    function frame(){
+            apples += feramount;
+            amount.innerHTML = apples
+            if(stop == 1){
+            	clearInterval(id);
+            }
+		    	}
+		    }
+
+		    //Buy harvesters, why, because they are awesome
+		    function harvbuy() {
+						//console.log(fercost)
+						if(apples >= harvcost){
+							harvamount++;
+							hamount.innerHTML = "Harvester: "+harvamount
+							apples -= harvcost;
+	            amount.innerHTML = apples
+	            
+	            if(harvamount == 1){
+								harvester()
+							}
+						updatecost()
+						}
+				}
+				function harvester(){
+			    var id = setInterval(frame, 1000);
+			    function frame(){
+            apples += harvamount;
+            amount.innerHTML = apples
+            if(stop == 1){
+            	clearInterval(id);
+            }
+		    	}
+		    }
 			</script>
 			<br>
 			<div id="text">
 				<p class="applenmbr">Number of apples</p>
 				<p id="amount" class="active applenmbr">0</p>
 				<div class="noline">
-					<p>Apples per Cycle:&nbsp <p id="bonusapples" class="active">0</p></p>
+					<p>Apples per Cycle:&nbsp <p id="bonusapples" class="active">1</p></p>
 					<br>
 					<p><button onclick="upgrade()" class="myButton2"><p id="upbutton" class="active">Upgrade</p>
 					</button> Part&nbsp <p id="upgradepart" class="active">1</p> out of 4</p>
@@ -283,8 +427,18 @@
 					<br>
 					<p>Amount of Clicks: <p id="clickamount">0</p></p>
 				</div>
-				<button onclick="savedata()" class="myButton">Save Data</button>
-				<button onclick="loaddata()" class="myButton">Load Data</button>
+				<button onclick="savedata()" class="myButton autofarming">Save Data</button>
+				<button onclick="loaddata()" class="myButton autofarming">Load Data</button>
+				<br>
+				<button onclick="start()" class = "myButton">Start auto-farming</button>
+				<button onclick="stop = 1" class = "myButton">Stop auto-farming</button>
+			</div>
+			<div id="automaker">
+				<h2>Automatic apple farming</h2>
+				<button onclick="farmerbuy()" class="myButton">0.1 APS<p id="famount">Farmer: 0</p><p id="fcost">Cost: 50</p></button>
+				<button onclick="ferbuy()" class="myButton">0.5 APS<p id="fertiamount">Fertilizer: 0</p><p id="ferticost">Cost: 200</p></button>
+				<button onclick="harvbuy()" class="myButton">1 APS<p id="hamount">Harvester: 0</p><p id="hcost">Cost: 1000</p></button>
+				<p>APS = Apple Per Second</p>
 			</div>
 		</div>
 	</body>
