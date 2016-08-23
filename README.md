@@ -16,6 +16,11 @@ Additional Things I have done
   - Upgrade with the 'U' Key
   - Automatic Upgrades
 
+- Automatic farming
+  - Buy buttons for, farmers, fertilizers and harvesters
+  - They will automatically add apples every x seconds
+  - Start and Stop button for the automatic farming
+
 - Clicking
   - Alternative to Klicking (Pressing a Key) for all the lazy people
   - Even another alternative to clicking, just scroll
@@ -28,3 +33,4 @@ Additional Things I have done
   - Amount of apple per cycle (up till 100) will be displayed on the tree
   - Cheat your way through by using the 'C' key on your keyboard to instantly add apples
   - Random Hex-Color Generator, for the apples, leafs and finally, even the tree
+  - Golden apples, you can also cheat by pressing 'G'
