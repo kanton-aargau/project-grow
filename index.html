@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<!-- Autor:Kai Schmidli -->
 <html>
 <head>
   <meta charset='UTF-8'>
@@ -6,120 +8,160 @@
     h1 {
       font-family: 'Arial';
     }
+	body { 
+ 		margin-top: 10%; 
+		text-align: center; 
+ 		background-color: steelblue;
+ 	} 
 
     canvas {
-      border: 1px solid #999;
+      border: 2px solid Black;
     }
+	p{
+		display: inline-block;
+	}
   </style>
 </head>
 <body>
   <h1>Project Grow</h1>
-  <h2 id='js-count'>0</h2>
-  <canvas id='js-canvas' width="400" height="400"></canvas>
+  <canvas id='js-canvas' width="400" height="400" onclick="clicking()"></canvas>
   <script>
-    var el = document.getElementById('js-canvas')
-    var countEl = document.getElementById('js-count')
-    var ctx = el.getContext('2d')
+    var canvas = document.getElementById('js-canvas')
+    var ctx = canvas.getContext('2d')
+		var phase = 1
+		var trees = 0
+		var clicks = 0
 
-    var initialState = {
-      startPhase: 1,
+		function makeDecoration(flakes ,min ,max ,min2 ,max2,color){	
+					for (i = 0; i < flakes; i++) {
+						ctx.fillStyle = color
+		 				size = Math.floor(Math.random() * (25 - 10) + 10);
+		 				randx = Math.floor(Math.random() * (max - min) + min);
+						randy = Math.floor(Math.random() * (max2 - min2) + min2);
+						ctx.fillRect(randx,randy,size,size);
+					}
+		}
 
-      pixels: {
-        width: 20,
-        height: 20
-      },
+	//Function for Clicking	
+	function clicking(){
+		//Switch for changing Phases
+		switch(phase){
+			case 0: phase0()
+			break;
+			case 1: phase1()
+			break;
+			case 2: phase2()
+			break;
+			case 3: phase3()
+			break;
+			case 4: phase4() 			
+			break;
+		}
+	}
+	function phase0(){
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		phase++
+		trees++	
+		amount.innerHTML = trees;
+		
+	}
+	
+	function phase1(){
+		phase++
+		ctx.fillStyle = 'Peru'
+	
+		ctx.fillRect (160, 360, 80, 70)		
+		ctx.fillRect (180, 340, 40, 40)	
+		ctx.fillStyle = 'white'
 
-      phases: {
-        1: [
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-          [0, 0, 1, 0, 0],
-        ],
+	}
+	
+	function phase2(){
+		phase++
+		ctx.fillStyle = 'Peru'
+		
+		ctx.fillRect (180, 125, 40, 250)
+		ctx.fillStyle = 'yellowGreen'
+		
+		ctx.fillRect (140, 295, 120, 20)
+		ctx.fillRect (150, 250, 100, 20)
+		ctx.fillRect (160, 210, 80, 20)
+		ctx.fillRect (170, 170, 60, 20)
+		ctx.fillRect (175, 130, 50, 20)
+		console.log("Phase is 2")
+	}
+	
+	function phase3(){
+		phase++
+		ctx.fillRect (70, 315, 260, 20)
+		ctx.fillRect (90, 305, 220, 20)
+		ctx.fillRect (110,295, 180, 20)
+		
+		ctx.fillRect (90, 270, 220, 20)																
+		ctx.fillRect (110, 260, 180, 20)
+		ctx.fillRect (130, 250, 140, 20)
+		
+		ctx.fillRect (110, 225, 180, 20)
+		ctx.fillRect (130, 215, 140, 20)
+		ctx.fillRect (150, 205, 100, 20)
+		
+		ctx.fillRect (130, 180, 140, 20)
+		ctx.fillRect (150, 170, 100, 20)
+		ctx.fillRect (170, 160, 60, 20)
+		
+		ctx.fillRect (150, 135, 100, 10)
+		ctx.fillRect (170, 125, 60, 10)
+		ctx.fillRect (190, 115, 20, 10)
+		
+		console.log("Phase is 3")
+	}
 
-        2: [
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 1, 1],
-          [0, 1, 0, 1, 0],
-          [0, 0, 1, 0, 0],
-          [0, 0, 1, 0, 0],
-        ],
+	function phase4(){
+		phase = 0
+		
+		ctx.fillStyle = 'PaleGoldenRod'
+				
+		
+		makeDecoration(7, 260, 100, 80, 320, 'PaleGoldenRod')
+		makeDecoration(7, 260, 100, 80, 320, 'DodgerBlue')
+		makeDecoration(7, 260, 100, 80, 320, 'crimson')
+		
+		
+		ctx.fillStyle = 'IndianRed'
+		ctx.fillRect (50, 335, 20, 20)
+		ctx.fillRect (330, 335, 20, 20)
+		
+		ctx.fillRect (75, 290, 15, 15)
+		ctx.fillRect (310, 290, 15, 15)
+		
+		ctx.fillRect (100, 245, 10, 10)
+		ctx.fillRect (290, 245, 10, 10)
+		
+		ctx.fillRect (125, 200,5, 5)
+		ctx.fillRect (270,200,5, 5)
+		console.log("Phase is 4")
+	}
+	
+	canvas.addEventListener('click', function () {
+		console.log('clicked!')
+		console.log()
+		clicks++
+		amount2.innerHTML = clicks;
+	})
+	
 
-        3: [
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-          [1, 0, 0, 0, 1],
-          [1, 1, 0, 0, 1],
-          [0, 0, 1, 1, 1],
-          [0, 1, 0, 1, 0],
-          [0, 0, 1, 0, 0],
-          [0, 0, 1, 0, 0],
-        ]
-      }
-    }
+	
 
-    initialState.canvas = {
-      width: initialState.phases[1][0].length * initialState.pixels.width,
-      height: initialState.phases[1].length * initialState.pixels.height
-    }
-
-    initialState.maxPhases = Object.keys(initialState.phases).length
-
-    el.width = initialState.canvas.width
-    el.height = initialState.canvas.height
-
-    var currentPhase = initialState.startPhase
-    var count = 0
-
-    init(initialState)
-
-    function init (state) {
-      update(ctx, state, currentPhase)
-
-      el.addEventListener('click', function () {
-        currentPhase += 1
-        if (currentPhase - 1 === state.maxPhases) {
-          currentPhase = 1
-          count += 1
-          countEl.innerHTML = count
-        }
-        update(ctx, state, currentPhase)
-      })
-    }
-
-    function createPhase (phase, state) {
-      phase.forEach(function (row, i) {
-        row.forEach(function (col, j) {
-          if (col !== 1) return
-          const x = state.pixels.width * j
-          const y = state.pixels.height * i
-
-          ctx.fillStyle = '#228b22'
-          ctx.fillRect(x, y, state.pixels.width, state.pixels.height)
-        })
-      })
-    }
-
-    function update (ctx, state, current) {
-      ctx.clearRect(0, 0, state.canvas.width, state.canvas.height)
-      createPhase(state.phases[current], state)
-    }
   </script>
+  <br>
+  <p>Anzahl Bäume:</p>
+  <p id="amount" class="active">0</p>
+  <br>
+  <p>	Clicks:</p>
+  <p id="amount2" class="active" >0</p>
+
+  
+  
 </body>
 </html>
+
