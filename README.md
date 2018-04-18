@@ -13,6 +13,6 @@ A simple clicker Game with some advancements and improvements compared to the or
 
 # Screenshots
 
-![Screenshot 1](https://github.com/kanton-aargau/project-grow/tree/benjamin/screenshots/screenshot-1.png)
+![Screenshot 1](https://github.com/kanton-aargau/project-grow/raw/benjamin/screenshots/screenshot-1.png)
 
-![Screenshot 2](https://github.com/kanton-aargau/project-grow/tree/benjamin/screenshots/screenshot-2.png)
+![Screenshot 2](https://github.com/kanton-aargau/project-grow/raw/benjamin/screenshots/screenshot-2.png)
