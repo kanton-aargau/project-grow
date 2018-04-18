@@ -177,8 +177,8 @@ function init(state) {
         }
 
         update(ctx, state, currentPhase);
-        treeCount.innerHTML = count;
-        levelCount.innerHTML = level;
+        treeCount.innerHTML = count.toString();
+        levelCount.innerHTML = level.toString();
         untilNextLevel.innerHTML = "Next Level: " + countUntilNextLevel;
 
         document.cookie = "trees= " + count + "; expires=24 Dec 2099 12:00:00 UTC";
@@ -218,9 +218,7 @@ function resetScores() {
     }
 
 
-    treeCount.innerHTML = count;
-    levelCount.innerHTML = level;
+    treeCount.innerHTML = count.toString();
+    levelCount.innerHTML = level.toString();
     untilNextLevel.innerHTML = "Next Level: " + countUntilNextLevel
-
-
 }
