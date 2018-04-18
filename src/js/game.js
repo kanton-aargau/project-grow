@@ -39,12 +39,12 @@ if (level === "") {
 }
 
 //calculate count until next level
-countUntilNextLevel = count - (level * level * 5);
+countUntilNextLevel = (level * level * 5) - count;
 
 
 treeCount.innerHTML = count.toString();
 levelCount.innerHTML = level.toString();
-untilNextLevel.innerHTML = "Next Level: " + countUntilNextLevel;
+untilNextLevel.innerHTML = "Next Level in " + countUntilNextLevel + " Trees";
 
 document.cookie = "trees= " + count + "; expires=24 Dec 2099 12:00:00 UTC";
 document.cookie = "level= " + level + "; expires=24 Dec 2099 12:00:00 UTC";
@@ -171,15 +171,16 @@ function init(state) {
 
         }
 
-        countUntilNextLevel = count - (level * level * 5);
+        countUntilNextLevel = (level * level * 5) - count;
         if (count >= level * level * 5) {
             level++
         }
 
         update(ctx, state, currentPhase);
+
         treeCount.innerHTML = count.toString();
         levelCount.innerHTML = level.toString();
-        untilNextLevel.innerHTML = "Next Level: " + countUntilNextLevel;
+        untilNextLevel.innerHTML = "Next Level in " + countUntilNextLevel + " Trees";
 
         document.cookie = "trees= " + count + "; expires=24 Dec 2099 12:00:00 UTC";
         document.cookie = "level= " + level + "; expires=24 Dec 2099 12:00:00 UTC";
@@ -212,7 +213,7 @@ function resetScores() {
     count = 0;
     level = 1;
 
-    countUntilNextLevel = count - (level * level * 5);
+    countUntilNextLevel = (level * level * 5) - count;
     if (count >= level * level * 5) {
         level++;
     }
@@ -220,5 +221,5 @@ function resetScores() {
 
     treeCount.innerHTML = count.toString();
     levelCount.innerHTML = level.toString();
-    untilNextLevel.innerHTML = "Next Level: " + countUntilNextLevel
+    untilNextLevel.innerHTML = "Next Level in " + countUntilNextLevel + " Trees"
 }

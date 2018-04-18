@@ -12,8 +12,9 @@
     margin: 10px;
 }
 
-canvas {
+#canvas {
     border: 1px solid #999;
+    margin: 20px;
 }
 
 a#noscript {
