@@ -1,0 +1,38 @@
+* {
+    font-family: "Arial", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", "Helvetica", "Lucida Grande", "sans-serif";
+    text-align: center;
+    text-rendering: optimizeLegibility;
+}
+
+.game-content {
+    margin-top: 60px;
+}
+
+.subtitle {
+    margin: 10px;
+}
+
+div#OuterCanvas {
+    text-align: center;
+}
+
+canvas {
+    border: 1px solid #999;
+}
+
+a#noscript {
+    color: #D3D3D3;
+    font-size: 30px;
+    padding: 4px;
+    border: 2px solid #D3D3D3;
+}
+
+.level {
+    margin: 20px;
+    font-size: 25px;
+}
+
+.next-level {
+    margin: 20px;
+    font-size: 25px;
+}
