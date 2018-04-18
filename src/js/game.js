@@ -180,6 +180,9 @@ function init(state) {
 
         treeCount.innerHTML = count.toString();
         levelCount.innerHTML = level.toString();
+
+        //recalculate countUntilNextLevel to prevent a display glitch
+        countUntilNextLevel = (level * level * 5) - count;
         untilNextLevel.innerHTML = "Next Level in " + countUntilNextLevel + " Trees";
 
         document.cookie = "trees= " + count + "; expires=24 Dec 2099 12:00:00 UTC";
