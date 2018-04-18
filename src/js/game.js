@@ -1,11 +1,11 @@
-var el = document.getElementById('js-canvas')
-var countEl = document.getElementById('js-count')
-var countlvl = document.getElementById('js-level-count')
-var countuntilnextlvl = document.getElementById('js-until-next-level')
-var ctx = el.getContext('2d')
+var canvas = document.getElementById('canvas');
+var treeCount = document.getElementById('tree-count');
+var levelCount = document.getElementById('level-count');
+var untilNextLevel = document.getElementById('until-next-level');
+var ctx = canvas.getContext('2d');
 var count = 0;
 var level = 1;
-var countuntilnextlevel = 0;
+var countUntilNextLevel = 0;
 
 
 function getCookie(cname) {
@@ -15,35 +15,36 @@ function getCookie(cname) {
     var ca = decodedCookie.split(';');
     for (var i = 0; i < ca.length; i++) {
         var c = ca[i];
-        while (c.charAt(0) == ' ') {
+        while (c.charAt(0) === ' ') {
             c = c.substring(1);
         }
-        if (c.indexOf(name) == 0) {
+        if (c.indexOf(name) === 0) {
             return c.substring(name.length, c.length);
         }
     }
-
     return "";
 }
 
 
+//Load scores if available
 count = getCookie("trees");
-if (count == "") {
 
+if (count === "") {
     count = 0
 }
 
 level = getCookie("level");
-if (level == "") {
+if (level === "") {
     level = 1
 }
 
-countuntilnextlevel = count - (level * level * 5)
+//calculate count until next level
+countUntilNextLevel = count - (level * level * 5);
 
 
-countEl.innerHTML = count
-countlvl.innerHTML = level
-countuntilnextlvl.innerHTML = "Next Level: " + countuntilnextlevel
+treeCount.innerHTML = count.toString();
+levelCount.innerHTML = level.toString();
+untilNextLevel.innerHTML = "Next Level: " + countUntilNextLevel;
 
 document.cookie = "trees= " + count + "; expires=24 Dec 2099 12:00:00 UTC";
 document.cookie = "level= " + level + "; expires=24 Dec 2099 12:00:00 UTC";
@@ -69,7 +70,7 @@ var initialState = {
             [0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0],
-            [0, 0, 1, 0, 0],
+            [0, 0, 1, 0, 0]
         ],
 
         2: [
@@ -83,7 +84,7 @@ var initialState = {
             [0, 0, 0, 1, 1],
             [0, 1, 0, 1, 0],
             [0, 0, 1, 0, 0],
-            [0, 0, 1, 0, 0],
+            [0, 0, 1, 0, 0]
         ],
 
         3: [
@@ -97,7 +98,7 @@ var initialState = {
             [0, 0, 1, 1, 1],
             [0, 1, 0, 1, 0],
             [0, 0, 1, 0, 0],
-            [0, 0, 1, 0, 0],
+            [0, 0, 1, 0, 0]
         ],
 
         4: [
@@ -111,7 +112,7 @@ var initialState = {
             [0, 0, 1, 1, 1],
             [0, 1, 0, 1, 0],
             [0, 0, 1, 0, 0],
-            [0, 0, 1, 0, 0],
+            [0, 0, 1, 0, 0]
         ],
 
         5: [
@@ -125,7 +126,7 @@ var initialState = {
             [0, 0, 1, 1, 1],
             [0, 1, 0, 1, 0],
             [0, 0, 1, 0, 0],
-            [0, 0, 1, 0, 0],
+            [0, 0, 1, 0, 0]
         ],
 
         6: [
@@ -139,46 +140,46 @@ var initialState = {
             [1, 1, 1, 1, 1],
             [0, 1, 1, 1, 0],
             [0, 0, 1, 0, 0],
-            [0, 0, 1, 0, 0],
+            [0, 0, 1, 0, 0]
         ]
     }
-}
+};
 
 initialState.canvas = {
     width: initialState.phases[1][0].length * initialState.pixels.width,
     height: initialState.phases[1].length * initialState.pixels.height
-}
+};
 
-initialState.maxPhases = Object.keys(initialState.phases).length
+initialState.maxPhases = Object.keys(initialState.phases).length;
 
-el.width = initialState.canvas.width
-el.height = initialState.canvas.height
+canvas.width = initialState.canvas.width;
+canvas.height = initialState.canvas.height;
 
-var currentPhase = initialState.startPhase
+var currentPhase = initialState.startPhase;
 
 
-init(initialState)
+init(initialState);
 
 function init(state) {
-    update(ctx, state, currentPhase)
+    update(ctx, state, currentPhase);
 
-    el.addEventListener('click', function () {
-        currentPhase++
+    canvas.addEventListener('click', function () {
+        currentPhase++;
         if ((currentPhase - 1) === state.maxPhases) {
-            currentPhase = 1
+            currentPhase = 1;
             count++
 
         }
 
-        countuntilnextlevel = count - (level * level * 5)
+        countUntilNextLevel = count - (level * level * 5);
         if (count >= level * level * 5) {
             level++
         }
 
-        update(ctx, state, currentPhase)
-        countEl.innerHTML = count
-        countlvl.innerHTML = level
-        countuntilnextlvl.innerHTML = "Next Level: " + countuntilnextlevel
+        update(ctx, state, currentPhase);
+        treeCount.innerHTML = count;
+        levelCount.innerHTML = level;
+        untilNextLevel.innerHTML = "Next Level: " + countUntilNextLevel;
 
         document.cookie = "trees= " + count + "; expires=24 Dec 2099 12:00:00 UTC";
         document.cookie = "level= " + level + "; expires=24 Dec 2099 12:00:00 UTC";
@@ -194,14 +195,14 @@ function createPhase(phase, state) {
             const y = state.pixels.height * i;
 
             ctx.fillStyle = '#228b22';
-            ctx.fillRect(x, y, state.pixels.width, state.pixels.height)
+            ctx.fillRect(x, y, state.pixels.width, state.pixels.height);
         })
     })
 }
 
 function update(ctx, state, current) {
-    ctx.clearRect(0, 0, state.canvas.width, state.canvas.height)
-    createPhase(state.phases[current], state)
+    ctx.clearRect(0, 0, state.canvas.width, state.canvas.height);
+    createPhase(state.phases[current], state);
 }
 
 
@@ -211,15 +212,15 @@ function resetScores() {
     count = 0;
     level = 1;
 
-    countuntilnextlevel = count - (level * level * 5)
+    countUntilNextLevel = count - (level * level * 5);
     if (count >= level * level * 5) {
-        level++
+        level++;
     }
 
 
-    countEl.innerHTML = count;
-    countlvl.innerHTML = level;
-    countuntilnextlvl.innerHTML = "Next Level: " + countuntilnextlevel
+    treeCount.innerHTML = count;
+    levelCount.innerHTML = level;
+    untilNextLevel.innerHTML = "Next Level: " + countUntilNextLevel
 
 
 }
